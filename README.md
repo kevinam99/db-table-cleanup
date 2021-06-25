@@ -5,7 +5,7 @@
 Use this Python script to cleanup your (Postgres) tables of redundant records.
 Insert the relevant information inthe script relating to your table and then run
 ```console
-user@user:~$ python3 cleanup_table.py
+python3 cleanup_table.py
 ```
 Voilà, you have a clean table now! Enjoy.
 If you're not using Postgres, be sure to import the relevant package of the database that you're using.  
