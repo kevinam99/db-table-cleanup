@@ -1,4 +1,4 @@
-# DB-table-cleanup
+# DB Table Cleanup
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Follow me on Twitter](https://img.shields.io/twitter/follow/neverloquacious?style=social)](https://twitter.com/neverloquacious)
 
@@ -8,3 +8,4 @@ Insert the relevant information inthe script relating to your table and then run
 python3 cleanupTable.py
 ```
 Voilà, you have a clean table now! Enjoy.
+If you're not using Postgres, be sure to import the relevant package of the database.
