@@ -8,6 +8,6 @@ Insert the relevant information inthe script relating to your table and then run
 python3 cleanupTable.py
 ```
 Voilà, you have a clean table now! Enjoy.
-If you're not using Postgres, be sure to import the relevant package of the database.  
+If you're not using Postgres, be sure to import the relevant package of the database that you're using.  
 
 ![Postgres logo](https://cdn.icon-icons.com/icons2/2415/PNG/128/postgresql_plain_wordmark_logo_icon_146390.png)
