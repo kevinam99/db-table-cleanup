@@ -14,10 +14,11 @@ try:
                         ORDER BY <column_name>."attribute" DESC
                 ;''')
 
-    rows = cursor.fetchall()
-    print(len(rows)) # print total number of records including duplicates
-    rows = list(set(rows))
-    print(len(rows))print total number of records excluding duplicates
+    total_rows = cursor.fetchall()
+    print(len(total_rows)) # print total number of records including duplicates
+    rows = list(set(total_rows))
+    print(len(total_rows)) # print total number of records excluding duplicates. The difference may surpise you.
+    print(f"Totale duplicates: {total_rows - rows}")
     cursor.execute("DELETE FROM <table_name>;") # remove all the tuples from the table.
     print("deletion complete")
     insert_stmt =  f'''
