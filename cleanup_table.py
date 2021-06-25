@@ -29,10 +29,9 @@ try:
     """
     Modify `insert_stmt` as required by the number of columns. 
     Only the second subscript will change
-    ""
+    """
     for i in range(len(rows)):
         if i == len(rows) - 1:
-        '''
             insert_stmt+= f''' ('{rows[i][0]}', {rows[i][1]}, '{rows[i][2]}', '{rows[i][3]}'); '''
         else:
             insert_stmt+= f''' ('{rows[i][0]}', {rows[i][1]}, '{rows[i][2]}', '{rows[i][3]}'),\n '''
