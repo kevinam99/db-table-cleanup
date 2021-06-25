@@ -1,47 +1,48 @@
-import psycopg2
+import psycopg2 # dependency to work with Postgres
 
 connection = psycopg2.connect(user="<user>",
-                                password="<password>",
-                                host="<connection string or url>",
+                                password="<db password>",
+                                host="<db link or connection string>",
                                 port="<db port>",
                                 database="<db name>")
 cursor = connection.cursor()
 
+table_name = "table_name"
 try:
     cursor = connection.cursor()
-    cursor.execute(f'''
-                        SELECT * FROM <table name>
-                        ORDER BY <column_name>."attribute" DESC
+    cursor.execute(f'''SELECT * FROM {table_name}
+                        ORDER BY {table_name}."<col_name>" DESC
                 ;''')
 
     total_rows = cursor.fetchall()
-    print(len(total_rows)) # print total number of records including duplicates
+    print(len(total_rows)) # print total number of rows including duplicates
     rows = list(set(total_rows))
-    print(len(total_rows)) # print total number of records excluding duplicates. The difference may surpise you.
-    print(f"Totale duplicates: {total_rows - rows}")
-    cursor.execute("DELETE FROM <table_name>;") # remove all the tuples from the table.
-    print("deletion complete")
-    insert_stmt =  f'''
-                   INSERT INTO <table name>("col_name1", "col_name2", "col_name3", "col_name4")
-                   VALUES  
-                   '''
-    # print(str(rows[0]))
-    """
-    Modify `insert_stmt` as required by the number of columns. 
-    Only the second subscript will change
-    """
-    for i in range(len(rows)):
-        if i == len(rows) - 1:
-            insert_stmt+= f''' ('{rows[i][0]}', {rows[i][1]}, '{rows[i][2]}', '{rows[i][3]}'); '''
-        else:
-            insert_stmt+= f''' ('{rows[i][0]}', {rows[i][1]}, '{rows[i][2]}', '{rows[i][3]}'),\n '''
+    print(len(rows)) # print total number of rows excluding duplicates
+    if not total_rows == rows:
+        cursor.execute(f"DELETE FROM {table_name};") # delete ALL exisiting data
+        print("deletion complete")
+        print(len(rows))
+        insert_stmt =  f'''
+                    INSERT INTO {table_name}("<col1>", "<col2>", "<col3>", "<col4>")
+                    VALUES  
+                    '''
+        """
+        Change only the second subscript depending on the number of columns you 
+        want to modify.
+        """
+        for i in range(len(rows)):
+            if i == len(rows) - 1:
+                insert_stmt+= f''' ('{rows[i][0]}', {rows[i][1]}, '{rows[i][2]}', '{rows[i][3]}'); '''
+            else:
+                insert_stmt+= f''' ('{rows[i][0]}', {rows[i][1]}, '{rows[i][2]}', '{rows[i][3]}'),\n '''
+        
+        print(insert_stmt) # check if the statement is a valid SQL query
+        cursor.execute(insert_stmt) # insert all unique records
+
+        connection.commit()
+        print("insertion complete")
     
-    print(insert_stmt) # check if the final statement is a valid SQL query.
-    cursor.execute(insert_stmt) # insert all the unique tuples into the table.
-
-    connection.commit()
-    print("insertion complete")
-
+    elif total_rows == rows: print("There are no duplicate tuples")
 except Exception as e:
     connection.rollback()
     print(e)
